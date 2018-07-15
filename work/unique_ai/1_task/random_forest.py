@@ -10,11 +10,13 @@ RANDOM_FEATURE_NUM = 2
 # 检验森林的正确率
 def accuracy(forest, test_data):
     accu_num = 0
+    # 使用权值作为票数，避免出现大量票数相等
+    alpha = [cdt.accuracy(tree, test_data) for tree in forest]
     for point in test_data:
         classify_result = [0 for i in range(0, FEATURE_NUM)]
-        for tree in forest:
-            _, h = cdt.classify(tree, point)
-            classify_result[h] = classify_result[h] + 1
+        for i in range(0,len(forest)):
+            _, h = cdt.classify(forest[i], point)
+            classify_result[h] = classify_result[h] + alpha[i]
         final_result = classify_result.index(max(classify_result))
         accu_num = accu_num + (final_result == point[-1])
     accu = accu_num/len(test_data)
