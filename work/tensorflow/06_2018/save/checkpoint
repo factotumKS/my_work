@@ -1,0 +1,6 @@
+model_checkpoint_path: "/home/mage/work/tensorflow/save/CNN_mnist.ckpt-29001"
+all_model_checkpoint_paths: "/home/mage/work/tensorflow/save/CNN_mnist.ckpt-25001"
+all_model_checkpoint_paths: "/home/mage/work/tensorflow/save/CNN_mnist.ckpt-26001"
+all_model_checkpoint_paths: "/home/mage/work/tensorflow/save/CNN_mnist.ckpt-27001"
+all_model_checkpoint_paths: "/home/mage/work/tensorflow/save/CNN_mnist.ckpt-28001"
+all_model_checkpoint_paths: "/home/mage/work/tensorflow/save/CNN_mnist.ckpt-29001"
