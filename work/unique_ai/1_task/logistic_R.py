@@ -6,7 +6,7 @@ OUTPUT_SIZE = 3
 LEARNING_RATE = 0.1
 TRAINING_STEP = 10000
 LAMBDA = 0.001 
-OPTIMIZE_METHOD = 'N'
+OPTIMIZE_METHOD = 'G'
 
 # 验证模型的正确率
 def validate(beta, test_data):
