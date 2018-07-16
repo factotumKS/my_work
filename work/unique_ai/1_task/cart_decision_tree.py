@@ -51,6 +51,67 @@ def classify(node, point):
     return result
 
 # -------------------------------------------------------------------
+# 迭代计算树每个节点在变成叶节点之后的分类，正确率，并以后者作为剪枝标准
+def postpruning(tree, validate_data):
+    # 先把数据分进去统计叶节点分类
+    for point in validate_data:
+        tree = place(tree, point)
+    new_tree,_,_ = node_accuracy(tree)
+    return new_tree
+# 后剪枝：递归将一条验证数据递归放在叶节点中
+def place(node, point):
+    # 为叶节点增加啊一个表格，统计分类过来的数据数量
+    if type(node[0]) is str:
+        if len(node) == 1:
+            node.append([0, 0, 0])
+        node[1][point[-1]] = node[1][point[-1]] + 1
+        return node
+    a = point[node[0]]
+    # 传回新节点
+    node[1][a] = place(node[1][a], point)
+    return node
+# 后剪枝：递归计算每个节点变成叶节点的正确率,从而实现剪枝
+# 顺便把塞在底下的验证数据删掉,传回一个干净的树
+def node_accuracy(node):
+    if type(node[0]) is str:
+        # 验证数据不曾访问的叶节点
+        if len(node) == 1:
+            return node, None, None
+        k = int(node[0])
+        accu = 1.0*node[1][k]/sum(node[1])
+        if len(node) != 1:
+            data = node.pop()
+        return node, accu, data
+    data = [0,0,0]
+    sub_accu = []
+    alpha = []
+    for i in node[1]:
+        # 传回一个子树的更新节点，准确率，含有数据，是否为叶节点
+        node[1][i], son_accu, son_data = node_accuracy(node[1][i])
+        # 如果一个子树没传回数据，无法确定效率就不剪掉
+        if not son_data:
+            continue
+        alpha.append(sum(son_data))
+        sub_accu.append(son_accu)
+        # 重组成本节点的验证数据统计
+        data = [data[i]+son_data[i] for i in range(0,3)]
+    if len(alpha) > 0:
+        # 求子树的全体正确率
+        alpha = [a/sum(alpha) for a in alpha]
+        sub_accu = sum([alpha[i]*sub_accu[i] for i in range(0,len(alpha))])
+        accu = 1.0*max(data)/sum(data)
+    # 如果下面的分支都没有验证数据，也必须保留
+    else:
+        return node, None, None
+    # 如果剪枝之后对正确率更好
+    if accu > sub_accu:
+        node =  [str(data.index(max(data))),]
+        return node, accu, data
+    # 否则就保持不变
+    else:
+        return node, None, None
+    
+# -------------------------------------------------------------------
 # 创建cart决策树的递归函数,传入validate_data用于选择最好
 def cart_tree_create(data, pre_data, feature, used):
     # 准备这一层的结点
@@ -131,8 +192,8 @@ def low_gini(data, feature, used):
 def cart_adaboost_create(data, feature):
     # 递归生成CART决策树
     tree = cart_tree_create(data, [], feature, [])
-    # 后剪枝
-
+    # 后剪枝，以后再补
+    
     # 测试
     accu = accuracy(tree, data)
     return tree, 1 - accu
@@ -140,7 +201,7 @@ def cart_adaboost_create(data, feature):
 # ------------------------------------------------------------
 def main():
     # 训练集：验证集：测试集 = 3：1：1
-    _, train_data, rest_data = iris_preprocessing(0.6)
+    _, train_data, rest_data = iris_preprocessing(0.2)
     validate_data, test_data = boostraping(rest_data, 0.5)
     # 数据全部准备就绪
     train_data, feature = preprocessing(train_data, False)
@@ -148,15 +209,25 @@ def main():
     test_data, _ = preprocessing(test_data, feature)
     # 递归生成CART决策树
     tree = cart_tree_create(train_data, [], feature, [])
-    # 后剪枝
-
     # 测试
     train_accuracy = accuracy(tree, train_data)
     test_accuracy = accuracy(tree, test_data)
-    print("the accuracy of current CART Decision Tree on training is: %f"
+    print("  the architecture of tree is: ",tree)
+    print("  the accuracy of current CART Decision Tree on training is: %f"
             % train_accuracy)
-    print("the accuracy of current CART Decision Tree on  testing is: %f"
+    print("  the accuracy of current CART Decision Tree on  testing is: %f"
             % test_accuracy)
+    # 后剪枝
+    new_tree = postpruning(tree, validate_data)
+    # 再测试
+    new_train_accuracy = accuracy(new_tree, train_data)
+    new_test_accuracy = accuracy(new_tree, test_data)
+    print("after postpruning:")
+    print("  the architecture of tree is: ",new_tree)
+    print("  the accuracy of current CART Decision Tree on training is: %f"
+            % new_train_accuracy)
+    print("  the accuracy of current CART Decision Tree on  testing is: %f"
+            % new_test_accuracy)
 
 if __name__ == '__main__':
     main()

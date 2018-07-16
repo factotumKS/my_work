@@ -60,18 +60,24 @@ def main():
             for i in range(0,3):
                 grad_p =  -np.transpose(x1)*((y_==i)-p[i]) + LAMBDA*beta[i]
                 beta[i] = beta[i] - LEARNING_RATE*grad_p
-        elif OPTIMIZE_METHOD == "N":
+        if OPTIMIZE_METHOD == "N":
             for i in range(0,3):
                 grad_p =  -np.transpose(x1)*((y_==i)-p[i]) + LAMBDA*beta[i]
                 Hessian = np.zeros((5,5))
                 for j in range(0, 5):
                     for k in range(0, 5):
                         Hessian[j][k] = x1[j]*x1[k]*p[i]*(1-p[i])
-                Hessian = np.mat(Hessian)
-                print(Hessian)
-                Hessian_I = Hessian.I
-                Hessian_I = np.array(Hessian_I)
-                beta[i] = beta[i] - grad_p.dot(Hessian_I)
+                # Hessian = np.mat(Hessian)
+                # print(Hessian)
+                # Hessian_I = Hessian.I
+                # Hessian_I = np.array(Hessian_I)
+                # beta[i] = beta[i] - grad_p.dot(Hessian_I)
+                g_Hessian_g = grad_p.dot(Hessian).dot(np.transpose(grad_p))
+                if g_Hessian_g == 0:
+                    beta[i]=beta[i] - LEARNING_RATE*grad_p
+                else:
+                    beta[i]=beta[i] - grad_p.dot(np.transpose(grad_p))/g_Hessian_g*grad_p
+
         # 每两百次迭代输出一次代价函数的值，测试一次网络
         if k % 100 == 0 or k < 100:
             J = -np.log(p).tolist()[y_] + 0.5*LAMBDA*np.sum(np.square(beta))
@@ -79,6 +85,8 @@ def main():
             print("the value of cost function in %d step(s) is : %f"
                     "   ,the accuracy of classifier is %f"
                     % (k, J, accuracy))
+            if accuracy >= 0.99:
+                break
     print(beta)
 if __name__ == '__main__':
     main()
