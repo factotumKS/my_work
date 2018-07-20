@@ -1,115 +1,181 @@
 import numpy as np
 import pandas as pd
-import randome as rd
+import random as rd
 
 # 初始化超参数
 K = 4
+W = 8
+C = 
+sigma = 
 
-# ------------------------------预处理组件---------------------------------
-# 预处理函数，对数据集进行预处理和划分，随机选择数据-----------------------
-def preprocessing(t_o_rate, v_t_rate):
-    dataSet = pd.read_csv("diabetes.csv", header=0)
-    # 2号列“血压”存在0值，属于缺失属性，使用KNN算法进行修复
-    data = knn_revover(dataSet, 2)
-    # 按照训练：其他，验证：测试的比例划分数据集
-    train_data, others = boostraping(data, t_o_rate)
-    test_data, validate_data = boostraping(others, v_t_rate)
-    return train_data, validate_data, test_data
+class SupportVectorMachine():
+    # 超参数初始化
+    def __init__(self, K, W, C, sigma):
+        self.K = K
+        self.W = W
+        self.C = C
+        self.sigma = sigma
+    
+    # ------------------------------预处理组件-----------------------------
+    # 预处理函数，对数据集进行预处理和划分，随机选择数据-------------------
+    def preprocessing(self, t_o_rate, v_t_rate):
+        dataSet = pd.read_csv("diabetes.csv", header=0)
+        # 2号列“血压”存在0值，属于缺失属性，使用KNN算法进行修复
+        data = knn_revover(dataSet, 2)
+        # 按照训练：其他，验证：测试的比例划分数据集
+        train_data, others = boostraping(data, t_o_rate)
+        test_data, validate_data = boostraping(others, v_t_rate)
+        # 返回数据不去标签列
+        return train_data, validate_data, test_data
 
-# 修复函数：对缺失数据集的re_col列进行修复，完成后直接传回array------------
-def knn_revover(dataSet, re_col):
-    # 在numpy的支持下进行运算
-    data = np.array(dataSet[1:])
-    # 记录需修复样本的编号
-    number = [i for i in range(0,len(data)) if data[i][re_col]==0]
-    # 标准化,跳过结果列
-    mean_data = np.mean(data[:,:-1], axis=0)
-    std_data = np.std(data[:,:-1], axis=0, ddof=1)
-    data[:,:-1] = (data[:,:-1] - mean_data)/std_data
-    # 根据标准化后的数据计算L1距离来选点
-    # 对每个恢复点
-    for i in number：
-        distances = []
-        values = [[] for i in range(0,K)]
-        # 计算到每个不需恢复点的L1距离，更新或取距离最小的相应位置
-        for j in range(0, len(data)) and j not in number:
-            point_i = list(data[i][:])
-            point_j = list(data[j][:])
-            # 计算距离时不考虑恢复需属性和标记
-            value = point_i.pop(-1).pop(re_col)
-            point_j.pop(-1).pop(re_col)
-            point_i = np.array(point_i)
-            point_j = np.array(point_j)
-            distance = sum(np.square(point_i - point_j))
-            # 判断是否比distances每个值都小
-            for dis in distances:
-                if dis < distances:
-                    value = -1
-                    break
-            if value >= 0:
-                # 如果距离数目已经达到了要求
-                if len(distances) == K:
-                    # 如果这个距离早就存在
-                    if distance in distances:
-                        num = distances.index(distance)
-                        values[num].append(value)
-                    # 否则这个距离不存在，需要替换原有最长距离
+    # 修复函数：对缺失数据集的re_col列进行修复，完成后直接传回array--------
+    def knn_revover(self, dataSet, re_col):
+        # 在numpy的支持下进行运算
+        data = np.array(dataSet[1:])
+        # 记录需修复样本的编号
+        number = [i for i in range(0,len(data)) if data[i][re_col]==0]
+        # 标准化,跳过结果列
+        mean_data = np.mean(data[:,:-1], axis=0)
+        std_data = np.std(data[:,:-1], axis=0, ddof=1)
+        data[:,:-1] = (data[:,:-1] - mean_data)/std_data
+        # 根据标准化后的数据计算L1距离来选点
+        # 对每个恢复点
+        for i in number：
+            distances = []
+            values = [[] for i in range(0,self.K)]
+            # 计算到每个不需恢复点的L1距离，更新或取距离最小的相应位置
+            for j in range(0, len(data)) and j not in number:
+                point_i = list(data[i][:])
+                point_j = list(data[j][:])
+                # 计算距离时不考虑恢复需属性和标记
+                value = point_i.pop(-1).pop(re_col)
+                point_j.pop(-1).pop(re_col)
+                point_i = np.array(point_i)
+                point_j = np.array(point_j)
+                distance = sum(np.square(point_i - point_j))
+                # 判断是否比distances每个值都小
+                for dis in distances:
+                    if dis < distances:
+                        value = -1
+                        break
+                if value >= 0:
+                    # 如果距离数目已经达到了要求
+                    if len(distances) == K:
+                        # 如果这个距离早就存在
+                        if distance in distances:
+                            num = distances.index(distance)
+                            values[num].append(value)
+                        # 否则这个距离不存在，需要替换原有最长距离
+                        else:
+                            num = distances.index(max(distances))
+                            distances[num] = distance
+                            values[num] = [value,]
+                    # 缺少的话直接补上
                     else:
-                        num = distances.index(max(distances))
-                        distances[num] = distance
-                        values[num] = [value,]
-                # 缺少的话直接补上
-                else:
-                    distances.append(distance)
-                    values.append([value,])
-        # 找完了最小距离，计算re_col平均值
-        revover = [sum(v)/len(v) for v in values]
-        revover = sum(revover)/len(recover)
-        data[i,re_col] = recover
-    # 修复完毕，re_col列标准化后，返回修复后的数据集合data
-    mean_re_col = np.mean(data[:,re_col], axis=0)
-    std_re_col = np.std(data[:,re_col], axis=0)
-    data[:,re_col] = (data[:,re_col] - mean_re_col)/std_re_col
-    return data
+                        distances.append(distance)
+                        values.append([value,])
+            # 找完了最小距离，计算re_col平均值
+            revover = [sum(v)/len(v) for v in values]
+            revover = sum(revover)/len(recover)
+            data[i,re_col] = recover
+        # 修复完毕，re_col列标准化后，返回修复后的数据集合data
+        mean_re_col = np.mean(data[:,re_col], axis=0)
+        std_re_col = np.std(data[:,re_col], axis=0)
+        data[:,re_col] = (data[:,re_col] - mean_re_col)/std_re_col
+        return data
 
-# 自助法函数，把一个嵌套列表结构的数据按照比例分成a,b两部分----------------
-def boostraping(data, rate):
-    # 实现自助法选择数据，要求按照rate的比例得到数据集a
-    a_numbers = []
-    while len(a_numbers) < rate*len(data):
-        add = random.randint(0, len(data)-1)
-        for i in range(0,len(a_numbers)):
-            if add == a_numbers[i]:
-                add = -1
-                break
-        if add != -1:
-            a_numbers.append(add)
-    a_data = [data[i] for i in a_numbers]
-    # 剩下的数据分为b类
-    b_numbers = [i for i in range(0, len(data)) if i not in a_numbers]
-    b_data = [data[i] for i in b_numbers]
-    return a_data, b_data
+    # 自助法函数，把一个嵌套列表结构的数据按照比例分成a,b两部分------------
+    def boostraping(self, data, rate):
+        # 实现自助法选择数据，要求按照rate的比例得到数据集a
+        a_numbers = []
+        while len(a_numbers) < rate*len(data):
+            add = random.randint(0, len(data)-1)
+            for i in range(0,len(a_numbers)):
+                if add == a_numbers[i]:
+                    add = -1
+                    break
+            if add != -1:
+                a_numbers.append(add)
+        a_data = [data[i] for i in a_numbers]
+        # 剩下的数据分为b类
+        b_numbers = [i for i in range(0, len(data)) if i not in a_numbers]
+        b_data = [data[i] for i in b_numbers]
+        return a_data, b_data
 
-# -------------------------------训练组件----------------------------------
-# 训练函数，根据训练数据给出模型，训练迭代---------------------------------
-def train():
-    w = np.random(())
-    return 
-# 前向传播函数，根据权重和数据计算前向传播结果----------------------------
-def inference():
-    return 
+    # -------------------------------训练组件------------------------------
+    # 训练函数，根据训练集，核函数训练迭代---------------------------------
+    def train(self, data, k):
+        # 各参数初始化
+        x = data[:,:-1]
+        y = data[:,-1]
+        # 为了使求解过程中分母有意义，不妨将0-1重新赋值为0.9和0.1
+        for label in y:
+            if y == 1:
+                label = 0.9
+            else:
+                label = 0.1
+        alpha = np.random.rand(1,len(x))
+        # 对偶问题的SMO算法求解，收敛后结束循环
+        turn = 0
+        while turn < 10:
+            new_alpha = SMO(alpha, x, y, k)
+            if new_alpha = alpha:
+                turn = turn + 1
+            else:
+                turn = 0
+            alpha = new_alpha
+        # 动态绑定必须数据
+        self.alpha = alpha
+        self.x = x
+        self.y = y
 
-# -------------------------------验证组件----------------------------------
-# 验证函数，根据验证数据选出最佳超参数（自适应过程）-----------------------
-def validate():
+    # SMO优化函数，返回单次SMO结果-----------------------------------------
+    def SMO(self, alpha, x, y, k):
+        # 随机选择两个相异alpha值
+        m = rd.randint(0, len(alpha))
+        n = rd.randint(0, len(alpha))
+        while m == n:
+            n = rd.randint(0, len(alpha))
+        # 取得闭式解需要组件
+        c = - alpha.dot(y) + alpha[m]*y[m] + alpha[n]*y[n]
+        p1 = sum([alpha[j] * y[j] * k(x[m],x[j]) for j in range(0,len(x))])
+        p2 = sum([alpha[j] * y[j] * k(x[n],x[j]) for j in range(0,len(x))])
+        p3 = c*kernel(x[n], x[n])
+        p4 = c*kernel(x[m], x[n])
+        p5 = y[m]*(k(x[m],x[m]) + k(x[n],x[n]) - 2*k(x[m],x[n]))
+        # 直接求出此时的闭式解，结果需要符合约束范围
+        new = (p1-p2+p3-p4 + 1/y[m]-1/y[n])/p5
+        if new > self.C:
+            new = c
+        if new < 0:
+            new = 0
+        # 更新参数并返回
+        alpha[m] = new
+        alpha[n] = (c - alpha[m]*y[m])/y[n]
+        return alpha
 
-# -------------------------------测试组件----------------------------------
-# 导入数据，训练验证结束后进行测试-----------------------------------------
+    # 高斯核函数-----------------------------------------------------------
+    def rbf_kernel(self, xi, xj):
+        result = np.exp(-np.square(xi - xj)/(2*sigma*sigma))
+        return result
+        
+    # -------------------------------验证组件------------------------------
+    # 验证函数，根据验证数据选出最佳超参数（自适应过程）-------------------
+    def validate(self, validate_data):
+        # 需要在自适应过程中求出最好的C、sigma
+        
+    # -------------------------------测试组件------------------------------
+    def test(self, test_data):
+
 def main():
+    # 创建SVM实例
+    svm = SupportVectorMachine(K, W, C, sigma)
     # 训练集：验证集：测试集 = 3：1：1
-    train_data, validate_data, test_data = preprocessing(0.6, 0.5)
+    train_data, validate_data, test_data = svm.preprocessing(0.6, 0.5)
+    # 指定使用的核函数，以高斯核为例
+    kernel = rbf_kernel
     # 训练得到最优参数训练
-
+    
     # 在最优参数基础上，自适应得到最佳超参数
 
     # 除了训练和测试过程中打印结果之外，最后再打印一次测试结果
