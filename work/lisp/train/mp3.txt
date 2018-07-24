@@ -1,0 +1,2 @@
+
+((:|TITLE| "song of saya1" :|ARTIST| "crazy studio" :|RATING| 10. :|RIPPED| |COMMON-LISP|::|T|) (:|TITLE| "SpiCa" :|ARTIST| "sb" :|RATING| 3. :|RIPPED| |COMMON-LISP|::|T|) (:|TITLE| "letter song" :|ARTIST| "doriko" :|RATING| 2. :|RIPPED| |COMMON-LISP|::|T|) (:|TITLE| "Odds&Ends" :|ARTIST| "Ryo" :|RATING| 1. :|RIPPED| |COMMON-LISP|::|T|)) 

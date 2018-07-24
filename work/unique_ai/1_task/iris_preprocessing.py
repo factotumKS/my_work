@@ -2,20 +2,20 @@ import random
 
 def boostraping(data, rate):
     # 实现自助法选择数据，要求生成含有60%的数据集，这里只保存数据的下标
-    train_numbers = []
-    while len(train_numbers) < rate*len(data):
+    a_numbers = []
+    while len(a_numbers) < rate*len(data):
         add = random.randint(0, len(data)-1)
-        for i in range(0,len(train_numbers)):
-            if add == train_numbers[i]:
+        for i in range(0,len(a_numbers)):
+            if add == a_numbers[i]:
                 add = -1
                 break
         if add != -1:
-            train_numbers.append(add)
-    train_data = [data[i] for i in train_numbers]
+            a_numbers.append(add)
+    a_data = [data[i] for i in a_numbers]
     # 剩下的数据用于测试
-    test_numbers = [i for i in range(0, len(data)) if i not in train_numbers]
-    test_data = [data[i] for i in test_numbers]
-    return train_data, test_data
+    b_numbers = [i for i in range(0, len(data)) if i not in a_numbers]
+    b_data = [data[i] for i in b_numbers]
+    return a_data, b_data
    
 def iris_preprocessing(rate):
     data = []
