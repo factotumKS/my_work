@@ -1,10 +1,4 @@
-# SML学习笔记
-
-​	由于typora不支持sml所以我在代码块选择了（相对来说）比较接近的scheme语言。
-
-
-
-## 二、名字函数和类型
+# 二、SML_note2_名字函数和类型
 
 ### 2.1 命名常量
 
@@ -45,6 +39,10 @@ fun area r = pi*r*r;	(*嘻嘻，这是一条注释*)
 ```scheme
 : | = => -> # :>
 ```
+
+
+
+## 数、字符串和真值
 
 ### 2.4 算术运算
 
@@ -133,6 +131,10 @@ fun sign(n) =
 ​	（not，函数）逻辑非；
 
 ​	返回布尔值的函数也叫做谓词（predicate），
+
+
+
+## 序偶、元组和记录
 
 ### 2.7 向量：序偶的例子
 
@@ -251,6 +253,10 @@ nonfix *;
 > 6 : int
 ```
 
+
+
+## 表达式的求值
+
 ### 2.11 ML中的求值：传值调用
 
 ​	对于函数`f(E)`先进行表达式E的求值，再将E的值带入对函数进行计算。
@@ -290,4 +296,176 @@ n! = n * (n-1)!
 
 ### 2.13 传需调用或惰性求值
 
-​	
+​	传值调用（严格求值）实在是太浪费了，有两种更好的策略。
+
+​	存在一种f(E)的值，直接将E传入f的函数体，然后计算新表达式的值，这称作**传名调用（call-by-name）**。也许传名调用比传值调用节省，但是也未必：
+
+​	还存在一种称为**传需调用（call-by-need，惰性求值）**的方法。它不直接把一个表达式替换到函数体，而是在参数出现的地方用指针链接到表达式上，如果其曾被求值，就共享这个值。指针结构形成了关于函数和参数的有向图。当图的一部分被求值后图会被结果更新，这称为图归约（graph reduction）。
+
+​	然而我们仍然使用严格求值。
+
+​	反正好像每种求值都有自己的漏洞所以这种东西无所谓啦。
+
+
+
+## 书写递归函数&局部声明
+
+### 2.14+ 书写递归方程（实例）
+
+​	**局部声明**，使用`let in`语法，如下：
+
+``` scheme
+(*约分分数n/d到最简式，使得n和d没有公约数*)
+fun fraction (n,d) = 
+	let val com = gcd(n,d)	(*最大公约数*)
+    in	(n div com, d div com) end;
+> val fraction = fn : int * int -> int
+```
+
+​	`let D in E end`结构在求值过程中，先对声明D进行求值，并按照结果进行命名，这样的环境仅在这个表达式中是可见的，然后再对表达式E进行求值，并作为整个表达式的值返回。
+
+​	其中let内可以包含复合声明，包含一系列的声明。	
+
+​	**嵌套的函数声明**，以实数平方根的牛顿法为例：
+
+```scheme
+fun findroot (a, x, acc) = 
+	let val nextx = (a div x + x) div 2.0
+    in	if abs (x-nextx) < acc*x	then nextx
+        else findroot (a, nextx, acc)
+    end;
+> val findroot = fn : (real * real * real) -> real
+```
+
+​	上面的例子中参数a和acc毫无变化地在每次递归调用中传递着，他们本该是全局的，我们可以加一层`let in`
+
+```scheme
+fun sqroot a = 
+	let val acc = 1.0E~10
+    	fun findroot x = 
+        	let val nextx = (a div x + x) div 2.0
+   		 	in	if abs (x-nextx) < acc*x	then nextx
+        		else findroot (a, nextx, acc)
+    		end;
+	in findroot 1.0 end;
+> val sqroot = fn : real -> real
+```
+
+### 2.18 使用local来隐藏声明
+
+​	`local D1 in D2 end`，和let表达式如出一辙。表示D1仅在D2内可见，很少用到，只有在隐藏声明的时候才需要（把D2要用到的D1隐藏起来）。
+
+### 2.19 联立声明
+
+​	联立声明允许同时定义多个名字。
+
+```scheme
+val Id1 = E1 and ... and Idn = En
+```
+
+​	通常联立是彼此独立的，但是fun声明允许递归，所以可以引入相互递归的函数。
+
+​	**相互递归的函数**，有的函数是相互递归的（mutually recursive），即相互基于对方来递归定义。递归下降语法分析器就是这样的。
+
+​	相互递归的函数通常都可以借助加入一个参数来合并成为一个函数。
+
+​	**仿真goto语句**，好孩子不要学。
+
+
+
+## 模块系统初步
+
+### 2.21 结构
+
+​	声明可以被包含在关键字struct和end之间来组合，并使用structure声明来绑定到一个标识符上。
+
+```scheme
+(*这个结构定义了复数的性质*)
+structure Complex = 
+	struct
+    type t = real * real;
+    val zero = (0.0, 0.0);
+    fun sum ((x,y), (x', y')) = (x+x', y+y') : t;
+    fun diff ((x,y), (x', y')) = (x-x', y-y') : t;
+    fun prod ((x,y), (x', y')) = (x*x' - y*y', x*y' + x'*y) : t;
+    ...
+    end;
+```
+
+​	结构可见时，使用复合名字来访问。
+
+​	与记录相比，记录的组成部分只能是值，而结构的组成部分可以包括类型和异常，但是不能用结构来进行计算。因为只有在程序模块进行连接的时候才会创建结构，结构应该被当作一种封装了的环境。
+
+### 2.22 签名
+
+​	签名是结构里面每一个组件的描述。对结构做出声明之后ML会把相应的签名打印出来作为回应。
+
+```scheme
+structure Complex = ...;	(*定义完了*)
+> structure Complex :
+>	sig
+>	type t
+>	val diff : (real * real) * (real * real) -> t
+>	...
+>	end						(*这是系统自动生成的签名体*)
+```
+
+​	系统生成的签名未必是我们需要的，比如有的内容其实是私有定义不应该泛用，所以可以**声明签名**，按照自己的需要定义一个签名，下面这个签名把名字ARITH给了sig和end之间的签名：
+
+```scheme
+signature ARITH = 
+	sig
+    type t
+    val zero : t
+    val sum  : t * t -> t
+    val diff : t * t -> t
+    val prod : t * t -> t
+    val quo  : t * t -> t
+    end;
+```
+
+​	通过上面这个签名我们可以定义其他的结构，使他们遵守签名，比如下面这个有理数框架：
+
+```scheme
+structure Rational : ARITH = 
+	struct
+    type t = int * int;
+    val zero = (0, 1);
+    ...
+    end;
+```
+
+​	签名描述了ML想安全地把程序单元连接起来需要的信息，它可以作为一种定义框架的规则。
+
+
+
+## 多态类型检测
+
+​	如果一种对象拥有多种类型，那么它就是**多态**的。
+
+### 2.23 类型推导
+
+​	和python类似，编译器会根据上下文推导，并在出现矛盾的时候报错。
+
+### 2.24 多态函数声明
+
+​	如果类型推导之后还是有一些无约束的类型，那么这个声明就是多态的。
+
+```scheme
+fun pairself x = (x, x);
+> val pairself = fn 'a -> 'a * 'a
+```
+
+​	此处涉及了**类型变量（type variable）**，命名为`'a'`。在ML中类型变量规定以单引号开始。
+
+​	多态类型是一个类型模式。用具体类型去替换类型变量可以形成一个类型模式的实例（instance），所以一个类型模式可以具有无限多的实例。
+
+```scheme
+pairself 4.0;
+> (4.0, 4.0) : real * real
+pairself 7;
+> (7, 7) : int * int
+```
+
+
+
