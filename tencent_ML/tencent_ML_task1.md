@@ -74,4 +74,6 @@
 
 ​	（欢迎约我看电影）
 
+![](/home/fool/my_work/pic/5c71ea6d22ab6a4f4f393141011107ab.jpg)
+
 ​		
