@@ -1,2 +1,3 @@
 # my_work
-用这个仓库来保存我的代码还有笔记
+a green hand gives up sorting these codes and notes, so just leave them here in mess
+WRYYYYYYYYY
