@@ -8,7 +8,7 @@ dd=mapstd('apply',dd0,ps); %待分类数据的标准化
 
 group=[ones(20,1); 2*ones(7,1)]; %已知样本点的类别标号
 
-s=svmtrain(b',group) %训练支持向量机分类器
+s=fitcsvm(b',group) %训练支持向量机分类器
 sv_index=s.SupportVectorIndices  %返回支持向量的标号
 beta=s.Alpha  %返回分类函数的权系数
 bb=s.Bias  %返回分类函数的常数项
