@@ -30,7 +30,7 @@ We do not take the transiting time between different stations into consideration
 
 
 
-## 3、安全检查点基本模型
+## 3、安检的基本模型
 
 ### 3.1、模型设计
 
@@ -127,5 +127,21 @@ We know that the more Pre-Check passengers, the smaller average time.  Therefore
 
 #### 3.2.4、预检通道和普通通道的比例的影响
 
+​	尝试了1：3、2：2、3：1三种，结果画图拟合，现实稳定时间消耗，比例越大平均消耗时间越大。
 
+​	
 
+​	
+
+## 4、当前进程的改进
+
+​	根据第一个模型，四个车分配和百分比预检乘客都是最佳的，然而，机场仍然发生拥堵。因此，我们需要找到更多策略来改进安全检查制度。
+
+​	提出三个模型：
+
+- Multi-passenger linkage model of belongings preparation (MPL model)
+- Priority-based queuing model(PBQ model)，优先队列模型
+- Model of special population (SP model)
+- 
+
+### 4.1、Multi-passenger Linkage Model of Belongings Preparation
