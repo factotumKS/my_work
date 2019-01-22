@@ -153,4 +153,17 @@ We know that the more Pre-Check passengers, the smaller average time.  Therefore
 a  passenger  cannot  begin  preparing  his  or  her belongings until the last passenger finishes preparing.	
 ```
 
-​	假设每个检查站都允许N准备乘客同时准备他们的物品。 一旦乘客完成准备并开始筛选过程，等候线前面的另一名乘客可以加入准备过程。 在这个联系过程中，我们可以保证总有几名乘客一起准备他们的物品。 虽然某位乘客的准备时间没有减少，但其他乘客的等候时间却减少了。
+​	假设每个检查站都允许N人准备乘客同时准备他们的物品。 一旦乘客完成准备并开始筛选过程，等候线前面的另一名乘客可以加入准备过程。 在这个联系过程中，我们可以保证总有几名乘客一起准备他们的物品。 虽然某位乘客的准备时间没有减少，但其他乘客的等候时间却减少了。
+
+#### 4.1.2、MPL模型的有效性
+
+​	等待区域不拥挤的话就可以增长N，改变N的值画曲线发现，N=3是最好的。
+
+​	（蛤？咋实现的？）
+
+### 4.2、Priority-based Queuing Model，优先队列模型
+
+#### 4.2.1、PBQ的设计
+
+​	
+
