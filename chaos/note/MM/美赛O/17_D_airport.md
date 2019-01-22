@@ -142,6 +142,15 @@ We know that the more Pre-Check passengers, the smaller average time.  Therefore
 - Multi-passenger linkage model of belongings preparation (MPL model)
 - Priority-based queuing model(PBQ model)，优先队列模型
 - Model of special population (SP model)
-- 
 
 ### 4.1、Multi-passenger Linkage Model of Belongings Preparation
+
+​	之前说拥挤主要发生在等待screen的过程中。
+
+​	（计算机中流水线中很常见的情况，有的计算需要外部输入，这个时候我们的处理办法是在早的计算进行时就开始输入做好准备）
+
+```
+a  passenger  cannot  begin  preparing  his  or  her belongings until the last passenger finishes preparing.	
+```
+
+​	假设每个检查站都允许N准备乘客同时准备他们的物品。 一旦乘客完成准备并开始筛选过程，等候线前面的另一名乘客可以加入准备过程。 在这个联系过程中，我们可以保证总有几名乘客一起准备他们的物品。 虽然某位乘客的准备时间没有减少，但其他乘客的等候时间却减少了。
