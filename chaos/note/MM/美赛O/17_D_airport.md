@@ -20,6 +20,12 @@
 - 检查点在A和b都有4个站点
 - 不考虑过境时间
 
+```
+We do not take the transiting time between different stations into consideration
+```
+
+
+
 ### 2.1、记号
 
 
@@ -31,11 +37,31 @@
 ​	四个子模型
 
 - 流入模型：该模型旨在模拟乘客的随机到达；
+
+```
+Inflow model: This model is designed to simulate the random arrivals of the pas-
+sengers
+```
+
 - 子模型二：属性生成模型：在这个模型中，对乘客赋予不同的属性来影响安全检查的时间长度；
+
+```
+Sub model two: Attributes generating model: In this model, we attribute different
+properties to the passengers that will influence the time length of security check.
+```
+
 - 排队模型：该模型研究排队等待的过程；
+
+```
+Queuing model: This model studies the process of waiting in lines.
+```
+
 - 筛选模型：讨论了准备过程和扫描过程；
 
-
+```
+Screening model:  The preparing process and the screening process are discussed
+in this model.
+```
 
 ### 3.2、子模型
 
@@ -50,4 +76,8 @@
 #### 3.2.3、排队模型
 
 ​	
+
+#### 3.2.4、扫描模型
+
+
 
