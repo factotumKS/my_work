@@ -163,7 +163,15 @@ a  passenger  cannot  begin  preparing  his  or  her belongings until the last p
 
 ### 4.2、Priority-based Queuing Model，优先队列模型
 
-#### 4.2.1、PBQ的设计
+#### 4.2.1、PBQ模型的设计
+
+​	设置了两个时间常量Tad1、Tad2，所以根据等待时间分成3个优先级别；有1个预检通道，2个普通通道，和一个紧急通道；等待时间过长的人可以按照优先级进入紧急通道。（差不多是这个意思）
+
+```
+For different priorities, passengers enjoy different policies.  For the priority group, passengers can use the emergency lane immediately.  For the regular group, passengers cannot  go  pass  the  emergency  lane  until  they  have  been  waiting  at  the  airport  for  a period of tad1.  When a period of tad2 has passed, the passengers of the over-punctual group  can  make  use  of  the  emergency  lane.   This  policy  can  not  only  guarantee  that the one in an urgent can get aboard in the first time, but also warn people not to arrive unnecessarily early. Figure 12 discribes this new modification
+```
+
+#### 4.2.2、PBQ模型的可行性，Effectivene
 
 ​	
 
