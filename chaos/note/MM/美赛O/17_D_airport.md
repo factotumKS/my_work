@@ -185,3 +185,86 @@ For different priorities, passengers enjoy different policies.  For the priority
 ​	观察，乘客到达时间间隔与总时间的关系，有无PBQ策略两张图
 
 ​	（然后都是两张图的分析，感觉看不下去）
+
+```
+还是对着文章看吧，这里需要画图
+```
+
+
+
+### 4.3、特殊人口的模型
+
+#### 4.3.1、SP模型的设计
+
+​	老人小孩很少携带危险物品（就是说分布不均匀，这里细化一下），这些人的坚持时间可以缩短，然后根据不同的含量再次画图比较（感觉是起查漏补缺的作用吧）
+
+
+
+## 5、模型评估&敏感性分析
+
+### 5.1、插队模型
+
+​	（看来是中国人写的）（所以给中国人设置一些特别的参数）（然后按照“中cha国dui人的素质程度”和“中cha国dui人含量”就又可以画很多图出来了）
+
+
+
+### 5.2、MPL的敏感性分析
+
+​	两张图
+
+### 5.3、PBQ的敏感性分析
+
+​	两张图
+
+
+
+## 6、结论
+
+### 6.1、Strengths and Weakness
+
+#### 6.1.1、Strengths，优点
+
+​	模型可以适应不同的条件，PBQ容错能力好。
+
+​	在极端情况下可以节省很多时间（模型自身实际作用）
+
+​	减少等待时间的同时也可以鼓励人们不要爱早来（心理作用，社会作用）
+
+
+
+#### 6.1.2、缺点
+
+​	忽略了紧急事件，作用范围有限。
+
+​	SP模型中人群分类有限。
+
+​	插队假设发生概率恒定，与时间无关，这与实际不符合（确实飞机快飞了会更容易插队）。
+
+​	
+
+### 6.2、安检经理的建议
+
+- 预检通道是个好东西，要调整好比例并大力宣传。
+- screening和等待之间可以添加一个“缓冲区”，让三个人先开始好好准备。（其实我们自己会这样做的，这个模型没啥意义）
+- 设置有限的时间间隔用于PBQ
+- 不要再考虑老年人和年轻人的政策了，没啥卵用（这可不行，谁说这个政策是为了效率，政治目的也很重要）
+- 在中国机场这个模型也可以适用（呵呵，你这个模型在中国根本没有用，这些东西我们自己就办得到）
+
+```
+The airports can set up some time limit intervals for security check as PBQ model, to reduce the waiting time of the passengers who is going to takeoff.  This policy can also encourage passengers not to arrive too early,  so that congestion during
+fastigia can be alleviated.  What’s more, the length of the time intervals tad1 and tad2 and the number of passengers in the priority group flow are directly related.
+```
+
+
+
+### 6.3、Future Plans
+
+​	（你们还是来中国考察一下吧）
+
+​	目前的PBQ模型峰值客流量是固定的，未来将考虑用乘客产生时间来决定高峰期持续时间。MPL在固定高峰研究联动条件和时间节点。
+
+​	应该使切割发生概率与拥堵程度有关，实际情况下机场越拥挤，插队就越多。
+
+```
+Our present PBQ model has fixed total peak passenger flow,  in the future,  we try to use the passenger generating time to decide the duration of peak period, MPL can study the linkage condition and time node at a fixed peak time,  make more objective evaluations on its performance. Make the occurrence probability of the cutting in line be related to the congestion level, in the real condition, more crowded the airport is, more cut-in-line phenomenon will take place.
+```
