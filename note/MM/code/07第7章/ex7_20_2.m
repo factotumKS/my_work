@@ -1,1 +1,0 @@
-nlintool(x,y,huaxue,beta0)
