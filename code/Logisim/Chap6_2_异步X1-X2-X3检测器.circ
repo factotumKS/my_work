@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="2.7.1" version="1.0">
+This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+<lib desc="#Wiring" name="0">
+    <tool name="Splitter">
+      <a name="facing" val="north"/>
+    </tool>
+    <tool name="Pin">
+      <a name="facing" val="north"/>
+    </tool>
+    <tool name="Probe">
+      <a name="facing" val="west"/>
+      <a name="radix" val="10signed"/>
+    </tool>
+    <tool name="Tunnel">
+      <a name="width" val="32"/>
+    </tool>
+    <tool name="Pull Resistor">
+      <a name="facing" val="north"/>
+    </tool>
+    <tool name="Clock">
+      <a name="facing" val="north"/>
+    </tool>
+    <tool name="Constant">
+      <a name="value" val="0x0"/>
+    </tool>
+  </lib>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#Memory" name="4">
+    <tool name="ROM">
+      <a name="contents">addr/data: 8 8
+0
+</a>
+    </tool>
+  </lib>
+  <lib desc="#I/O" name="5"/>
+  <lib desc="#Base" name="6">
+    <tool name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+  </lib>
+  <main name="main"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="200"/>
+    <a name="simrand" val="32"/>
+  </options>
+  <mappings>
+    <tool lib="6" map="Button2" name="Menu Tool"/>
+    <tool lib="6" map="Button3" name="Menu Tool"/>
+    <tool lib="6" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="6" name="Poke Tool"/>
+    <tool lib="6" name="Edit Tool"/>
+    <tool lib="6" name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 12"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+    <sep/>
+    <tool lib="0" name="Pin">
+      <a name="tristate" val="false"/>
+    </tool>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </tool>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate"/>
+  </toolbar>
+  <circuit name="main">
+    <a name="circuit" val="main"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="west"/>
+    <a name="clabelfont" val="SansSerif plain 12"/>
+    <wire from="(270,240)" to="(330,240)"/>
+    <wire from="(450,500)" to="(510,500)"/>
+    <wire from="(130,220)" to="(130,290)"/>
+    <wire from="(170,390)" to="(220,390)"/>
+    <wire from="(170,190)" to="(220,190)"/>
+    <wire from="(520,390)" to="(580,390)"/>
+    <wire from="(580,390)" to="(580,460)"/>
+    <wire from="(80,220)" to="(130,220)"/>
+    <wire from="(580,350)" to="(620,350)"/>
+    <wire from="(580,390)" to="(620,390)"/>
+    <wire from="(540,260)" to="(540,290)"/>
+    <wire from="(210,130)" to="(210,150)"/>
+    <wire from="(210,330)" to="(210,350)"/>
+    <wire from="(510,420)" to="(510,500)"/>
+    <wire from="(420,260)" to="(420,290)"/>
+    <wire from="(580,220)" to="(580,240)"/>
+    <wire from="(190,430)" to="(190,460)"/>
+    <wire from="(390,240)" to="(480,240)"/>
+    <wire from="(190,430)" to="(220,430)"/>
+    <wire from="(130,220)" to="(220,220)"/>
+    <wire from="(520,410)" to="(540,410)"/>
+    <wire from="(80,190)" to="(170,190)"/>
+    <wire from="(310,220)" to="(330,220)"/>
+    <wire from="(310,260)" to="(330,260)"/>
+    <wire from="(460,410)" to="(480,410)"/>
+    <wire from="(450,330)" to="(450,500)"/>
+    <wire from="(490,270)" to="(490,310)"/>
+    <wire from="(380,240)" to="(390,240)"/>
+    <wire from="(210,150)" to="(220,150)"/>
+    <wire from="(210,330)" to="(220,330)"/>
+    <wire from="(310,170)" to="(310,220)"/>
+    <wire from="(460,440)" to="(540,440)"/>
+    <wire from="(310,310)" to="(310,370)"/>
+    <wire from="(510,270)" to="(510,330)"/>
+    <wire from="(420,310)" to="(490,310)"/>
+    <wire from="(270,410)" to="(330,410)"/>
+    <wire from="(100,480)" to="(420,480)"/>
+    <wire from="(420,260)" to="(480,260)"/>
+    <wire from="(450,330)" to="(510,330)"/>
+    <wire from="(420,130)" to="(420,260)"/>
+    <wire from="(170,190)" to="(170,390)"/>
+    <wire from="(390,380)" to="(390,390)"/>
+    <wire from="(520,240)" to="(580,240)"/>
+    <wire from="(210,350)" to="(580,350)"/>
+    <wire from="(420,290)" to="(540,290)"/>
+    <wire from="(580,460)" to="(620,460)"/>
+    <wire from="(390,220)" to="(390,240)"/>
+    <wire from="(670,370)" to="(710,370)"/>
+    <wire from="(540,410)" to="(540,440)"/>
+    <wire from="(460,410)" to="(460,440)"/>
+    <wire from="(270,170)" to="(310,170)"/>
+    <wire from="(270,310)" to="(310,310)"/>
+    <wire from="(170,160)" to="(170,190)"/>
+    <wire from="(390,390)" to="(480,390)"/>
+    <wire from="(190,260)" to="(220,260)"/>
+    <wire from="(100,500)" to="(450,500)"/>
+    <wire from="(130,290)" to="(220,290)"/>
+    <wire from="(520,260)" to="(540,260)"/>
+    <wire from="(580,240)" to="(580,350)"/>
+    <wire from="(310,370)" to="(330,370)"/>
+    <wire from="(190,260)" to="(190,430)"/>
+    <wire from="(420,310)" to="(420,480)"/>
+    <wire from="(210,130)" to="(420,130)"/>
+    <wire from="(380,390)" to="(390,390)"/>
+    <wire from="(310,260)" to="(310,310)"/>
+    <wire from="(190,460)" to="(580,460)"/>
+    <wire from="(490,420)" to="(490,480)"/>
+    <wire from="(420,480)" to="(490,480)"/>
+    <wire from="(130,160)" to="(130,220)"/>
+    <comp lib="6" loc="(472,98)" name="Text">
+      <a name="text" val="D触发器的清除、置1端是高电平有效"/>
+    </comp>
+    <comp lib="0" loc="(100,500)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="清除"/>
+    </comp>
+    <comp lib="6" loc="(862,208)" name="Text">
+      <a name="text" val="11--（Z=1）"/>
+    </comp>
+    <comp lib="6" loc="(745,167)" name="Text">
+      <a name="text" val="状态流程：00--（X1）--10"/>
+    </comp>
+    <comp lib="6" loc="(71,258)" name="Text">
+      <a name="text" val="输入信号"/>
+    </comp>
+    <comp lib="1" loc="(380,240)" name="OR Gate">
+      <a name="inputs" val="3"/>
+    </comp>
+    <comp lib="1" loc="(270,410)" name="AND Gate">
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="6" loc="(774,209)" name="Text">
+      <a name="text" val="01--（X2）--11"/>
+    </comp>
+    <comp lib="4" loc="(520,240)" name="D Flip-Flop">
+      <a name="label" val="Y2"/>
+    </comp>
+    <comp lib="6" loc="(90,153)" name="Text">
+      <a name="text" val="观察点"/>
+    </comp>
+    <comp lib="1" loc="(670,370)" name="AND Gate">
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="5" loc="(170,160)" name="LED">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="6" loc="(580,191)" name="Text">
+      <a name="text" val="观察点"/>
+    </comp>
+    <comp lib="6" loc="(726,411)" name="Text">
+      <a name="text" val="输出信号"/>
+    </comp>
+    <comp lib="6" loc="(398,606)" name="Text"/>
+    <comp lib="5" loc="(130,160)" name="LED">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="6" loc="(78,452)" name="Text">
+      <a name="text" val="输入信号"/>
+    </comp>
+    <comp lib="6" loc="(391,189)" name="Text">
+      <a name="text" val="观察点"/>
+    </comp>
+    <comp lib="5" loc="(580,220)" name="LED">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="1" loc="(270,310)" name="AND Gate">
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="6" loc="(831,236)" name="Text">
+      <a name="text" val="仿真结果：00--（X1）--10--（X2）--01--（X2）--10 为什么？"/>
+    </comp>
+    <comp lib="1" loc="(270,170)" name="AND Gate">
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="5" loc="(390,220)" name="LED">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="6" loc="(256,100)" name="Text">
+      <a name="text" val="异步时序逻辑电路的X1-X2-X2序列检测器"/>
+    </comp>
+    <comp lib="5" loc="(80,220)" name="Button">
+      <a name="label" val="X2"/>
+    </comp>
+    <comp lib="5" loc="(620,460)" name="LED"/>
+    <comp lib="5" loc="(80,190)" name="Button">
+      <a name="label" val="X1"/>
+    </comp>
+    <comp lib="1" loc="(380,390)" name="OR Gate">
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="1" loc="(270,240)" name="AND Gate">
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="5" loc="(390,380)" name="LED">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="0" loc="(710,370)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Z"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(100,480)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="置1"/>
+    </comp>
+    <comp lib="6" loc="(774,188)" name="Text">
+      <a name="text" val="10--（X2）--01"/>
+    </comp>
+    <comp lib="4" loc="(520,390)" name="D Flip-Flop">
+      <a name="label" val="Y1"/>
+    </comp>
+    <comp lib="6" loc="(460,643)" name="Text"/>
+  </circuit>
+</project>
